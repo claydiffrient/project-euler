@@ -1,16 +1,17 @@
-project-euler
-=============
+# project-euler #
 
 My solutions to different Project Euler problems.
 
+## Directory Structure ##
+
+
 The directory structures is as follows:
 
-  Problem (identified by number, index in this file)
-   Language (Java, C++, Javascript, Perl, PHP, etc.)
-      Source code for the solution
-      README.md containing notes and usage information.
+Problem #/ - top level files containing everything pertaining to a single project.
+Problem #/language - a folder named after the language the preceding source is in. (java, c++, etc.)
+Problem #/language/README.md - a file containing specific notes for that implementation.
 
-
+## Project Index ##
 <table>
    <tr>
       <th>Problem #</th>
