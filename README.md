@@ -7,9 +7,9 @@ My solutions to different Project Euler problems.
 
 The directory structures is as follows:
 
-Problem #/ - top level files containing everything pertaining to a single project. 
-Problem #/language - a folder named after the language the preceding source is in. (java, c++, etc.) 
-Problem #/language/README.md - a file containing specific notes for that implementation. 
+Problem #/ - top level files containing everything pertaining to a single project.  
+Problem #/language - a folder named after the language the preceding source is in. (java, c++, etc.)  
+Problem #/language/README.md - a file containing specific notes for that implementation.  
 
 ## Project Index ##
 <table>
