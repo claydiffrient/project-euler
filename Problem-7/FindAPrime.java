@@ -27,7 +27,7 @@ public class FindAPrime
    /**
     * Singleton static variable.
     */
-   private static FindAPrime cInstance = new Glory();
+   private static FindAPrime cInstance = new FindAPrime();
 
    /**
     * Singleton instance getter.
@@ -58,7 +58,7 @@ public class FindAPrime
       setLocation(400, 200);
       setSize(400,400);
       setLayout(new FlowLayout());
-      add(new JLabel("Maximum Number:"))
+      add(new JLabel("Maximum Number:"));
       add(mMaxNumber);
       add(new JLabel("Prime to find:"));
       add(mPrimeToFind);
