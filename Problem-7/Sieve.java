@@ -109,6 +109,7 @@ public class Sieve
     * @return int
     */
    public int getResult()
+      throws IndexOutOfBoundsException
    {
       return mPrimes.get(mToFind - 1).intValue();
    }
