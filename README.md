@@ -7,9 +7,9 @@ My solutions to different Project Euler problems.
 
 The directory structures is as follows:
 
-Problem #/ - top level files containing everything pertaining to a single project.  
-Problem #/language - a folder named after the language the preceding source is in. (java, c++, etc.)  
-Problem #/language/README.md - a file containing specific notes for that implementation.  
+Problem #/ - top level files containing everything pertaining to a single project.
+Problem #/language - a folder named after the language the preceding source is in. (java, c++, etc.)
+Problem #/language/README.md - a file containing specific notes for that implementation.
 
 ## Project Index ##
 <table>
@@ -71,6 +71,15 @@ Problem #/language/README.md - a file containing specific notes for that impleme
    <tr>
       <td><a href="http://projecteuler.net/problem=6">6</a></td>
       <td>What is the difference between the sum of the squares and the square of the sums?</th>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td><a href="http://projecteuler.net/problem=7">7</a></td>
+      <td>Find the 10001st prime.</td>
       <td>Yes</td>
       <td>No</td>
       <td>No</td>
