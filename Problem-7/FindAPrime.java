@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 /**
  * FindAPrime
  *
+ * Solution to Project Euler #7  Correct Answer found using
+ * 200,000 as the maximum and 10,001 as the searched for value.
+ *
  * Finds a prime based on given input.
  * Graphical Interface is used.
  * Singleton design pattern.
@@ -76,6 +79,7 @@ public class FindAPrime
                                           JOptionPane.INFORMATION_MESSAGE);
          }
       });
+      add(findPrimeButton);
    }
 
    /**

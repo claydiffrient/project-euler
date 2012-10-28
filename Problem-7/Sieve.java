@@ -1,4 +1,3 @@
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +34,22 @@ public class Sieve
    private int mToFind;
 
    /**
+    * The maximum value to find
+    */
+   private int mMaxValue;
+
+   /**
     * Constructor
     * @param pMaxValue the largest value to loop to.
     * @param pToFind the number prime you wish to find.
     */
-   public Sieve(pMaxValue, pToFind)
+   public Sieve(String pMaxValue,String pToFind)
    {
       mPrimes = new ArrayList<BigInteger>();
-      mValues = new boolean[Integer.parseInt(pMaxValue) + 1];
+      mMaxValue = Integer.parseInt(pMaxValue);
+      mValues = new boolean[mMaxValue + 1];
       Arrays.fill(mValues, false);
-      mSqrt = (int) Math.sqrt(pMaxValue);
+      mSqrt = (int) Math.sqrt(Double.parseDouble(pMaxValue));
       mToFind = Integer.parseInt(pToFind);
    }
 
@@ -59,9 +64,11 @@ public class Sieve
       {
          if (!mValues[i])
          {
-            for (int j = i * i; j <= mValues.length; j+=i)
+            mPrimes.add(BigInteger.valueOf(i));
+            for (int j = i * i; j <= mMaxValue; j+=i)
             {
                mValues[j] = true;
+               System.out.println("Composite: " + j);
             }
          }
       }
@@ -74,11 +81,13 @@ public class Sieve
     */
    private void copyPrimes()
    {
-      for (int i = mSqrt; i <= mValues.length; i++)
+      for (int i = mSqrt; i <= mMaxValue; i++)
       {
          if (!mValues[i])
          {
-            mPrimes.add(new BigInteger(i));
+            mPrimes.add(BigInteger.valueOf(i));
+            int loc = mPrimes.indexOf(BigInteger.valueOf(i));
+            System.out.println("Prime:" + i + " In location: " + loc);
          }
       }
    }
@@ -101,7 +110,7 @@ public class Sieve
     */
    public int getResult()
    {
-      return mPrimes.get(mToFind);
+      return mPrimes.get(mToFind - 1).intValue();
    }
 
 }
