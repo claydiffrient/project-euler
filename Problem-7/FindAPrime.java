@@ -56,12 +56,26 @@ public class FindAPrime
       setFont(new Font("Times", 1, 30));
       setDefaultCloseOperation(EXIT_ON_CLOSE);
       setLocation(400, 200);
-      setSize(400,400);
+      setSize(200,200);
       setLayout(new FlowLayout());
       add(new JLabel("Maximum Number:"));
       add(mMaxNumber);
       add(new JLabel("Prime to find:"));
       add(mPrimeToFind);
+      JButton findPrimeButton = new JButton("Find Prime");
+      findPrimeButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Sieve primeGen =
+               new Sieve(mMaxNumber.getText(), mPrimeToFind.getText());
+            primeGen.run();
+            JOptionPane.showMessageDialog(null, primeGen.getResult(),
+                                          "The " + mPrimeToFind.getText() +
+                                          "th prime is...",
+                                          JOptionPane.INFORMATION_MESSAGE);
+         }
+      });
    }
 
    /**
