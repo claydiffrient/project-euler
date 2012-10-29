@@ -68,15 +68,36 @@ public class FindAPrime
       JButton findPrimeButton = new JButton("Find Prime");
       findPrimeButton.addActionListener(new ActionListener()
       {
-         public void actionPerformed(ActionEvent e)
+         public void actionPerformed(ActionEvent event)
          {
-            Sieve primeGen =
-               new Sieve(mMaxNumber.getText(), mPrimeToFind.getText());
-            primeGen.run();
-            JOptionPane.showMessageDialog(null, primeGen.getResult(),
-                                          "The " + mPrimeToFind.getText() +
-                                          "th prime is...",
-                                          JOptionPane.INFORMATION_MESSAGE);
+            if (Integer.parseInt(mMaxNumber.getText()) <= 0)
+            {
+                JOptionPane.showMessageDialog(null, "You need to enter a " +
+                                              "number greater than zero",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (Integer.parseInt(mPrimeToFind.getText()) <= 0)
+            {
+               JOptionPane.showMessageDialog(null, "You need to enter a "
+                                             + "number greater than zero",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+            } else
+            {
+               Sieve primeGen =
+                       new Sieve(mMaxNumber.getText(), mPrimeToFind.getText());
+               primeGen.run();
+               try {
+                  JOptionPane.showMessageDialog(null, primeGen.getResult(),
+                          "The " + mPrimeToFind.getText()
+                          + "th prime is...",
+                          JOptionPane.INFORMATION_MESSAGE);
+               } catch (Exception e) {
+                  JOptionPane.showMessageDialog(null, "Try using a higher limit"
+                                               + " as your prime is larger than"
+                                               + " your limit", "Error",
+                                               JOptionPane.ERROR_MESSAGE);
+               }
+            }
+
          }
       });
       add(findPrimeButton);
