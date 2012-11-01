@@ -76,7 +76,7 @@ public class ProductOfMatrixDiagonals
    /**
     * List that holds the matrix.
     */
-   List<ArrayList> mMatrix;
+   Matrix<Integer> mMatrix;
 
    /**
     * Largest product
@@ -97,7 +97,7 @@ public class ProductOfMatrixDiagonals
       setLayout(new BorderLayout(5,5));
       mTextFields.setLayout(new BoxLayout(mTextFields, BoxLayout.PAGE_AXIS));
       mRows = new ArrayList<JTextField>();
-      mMatrix = new ArrayList<ArrayList>();
+      mMatrix = new Matrix<Integer>();
 
       JPanel leftPanel = new JPanel(new GridLayout(3,3));
       JButton findButton = new JButton("Find Greatest Product");
@@ -170,21 +170,23 @@ public class ProductOfMatrixDiagonals
    {
       for (int i = 0; i < mRows.size(); i++)
       {
-         ArrayList<ArrayList> row = new ArrayList<ArrayList>();
-         ArrayList<Integer> rowContents = getRowList(mRows.get(i).getText());
-         row.add(rowContents);
-         mMatrix.add(row);
+         ArrayList<Integer> temp = getRowList(mRows.get(i).getText());
+         for (int j = 0; j < temp.size() ; j++ )
+         {
+            mMatrix.add(temp.get(j), i);
+         }
       }
    }
 
    public void displayMatrix()
    {
-      for (int i = 0; i < mMatrix.size(); i++)
+      for (int r = 0; r < mMatrix.getNumRows(); r++)
       {
-         for (int j = 0; j < mMatrix.get(i).size(); j++)
+         for (int c = 0; c < mMatrix.getNumCols(r); c++)
          {
-            System.out.println(mMatrix.get(j));
+            System.out.print(mMatrix.get(r,c) + " ");
          }
+         System.out.print("\n");
       }
    }
 
