@@ -87,5 +87,14 @@ Problem #/language/README.md - a file containing specific notes for that impleme
       <td>No</td>
       <td>No</td>
    </tr>
+   <tr>
+      <td><a href="http://projecteuler.net/problem=8">7</a></td>
+      <td>Discover the largest product of five consecutive digits in the 1000-digit number.</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+   </tr>
 
 </table>
