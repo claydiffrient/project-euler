@@ -53,6 +53,7 @@ public class PythagoreanTriplet
          System.out.println("Error with Arguments.");
          System.out.println("Usage: java PythagoreanTriplets a");
          System.out.println("a = Sum of a+b+c");
+         System.exit(1);
       }
    }
 
