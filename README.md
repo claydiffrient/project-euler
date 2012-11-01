@@ -105,5 +105,14 @@ Problem #/language/README.md - a file containing specific notes for that impleme
       <td>No</td>
       <td>No</td>
    </tr>
+   <tr>
+      <td><a href="http://projecteuler.net/problem=10">10</a></td>
+      <td>Calculate the sum of all the primes below two million.</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+   </tr>
 
 </table>
