@@ -88,8 +88,17 @@ Problem #/language/README.md - a file containing specific notes for that impleme
       <td>No</td>
    </tr>
    <tr>
-      <td><a href="http://projecteuler.net/problem=8">7</a></td>
+      <td><a href="http://projecteuler.net/problem=8">8</a></td>
       <td>Discover the largest product of five consecutive digits in the 1000-digit number.</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td><a href="http://projecteuler.net/problem=9">9</a></td>
+      <td>Find the only Pythagorean triplet, {a, b, c}, for which a + b + c = 1000.</td>
       <td>Yes</td>
       <td>No</td>
       <td>No</td>
