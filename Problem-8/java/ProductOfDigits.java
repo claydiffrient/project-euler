@@ -73,13 +73,7 @@ public class ProductOfDigits
       {
          public void actionPerformed(ActionEvent e)
          {
-            /*Sieve primeGen =
-               new Sieve(mMaxNumber.getText(), mPrimeToFind.getText());
-            primeGen.run();
-            JOptionPane.showMessageDialog(null, primeGen.getResult(),
-                                          "The " + mPrimeToFind.getText() +
-                                          "th prime is...",
-                                          JOptionPane.INFORMATION_MESSAGE);*/
+
          }
       });
       add(findButton);
