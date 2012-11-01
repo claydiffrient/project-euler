@@ -8,7 +8,7 @@ public class NumericQueue
    /**
     * ArrayList containing the numeric values.
     */
-   ArrayList<int> mMainList = new ArrayList<int>();
+   ArrayList<Integer> mMainList = new ArrayList<Integer>();
 
    /**
     * Range size indication
@@ -31,13 +31,19 @@ public class NumericQueue
    int mNumElements;
 
    /**
+    * Boolean indicating that the last consecutive range has been found.
+    */
+   private boolean mLastFound;
+
+   /**
     * Constructor
     */
-   public NumericQueue(pRangeSize)
+   public NumericQueue(int pRangeSize)
    {
       mRangeSize = pRangeSize;
       mLastElement = mFirstElement + mRangeSize;
       mNumElements = 0;
+      mLastFound = false;
    }
 
    /**
@@ -53,19 +59,29 @@ public class NumericQueue
    public int[] getRange(boolean pIncrement)
    {
       int[] returnArray = new int[mRangeSize];
-      returnArray[0] = mMainList.get(mFirstElement);
-      returnArray[1] = mMainList.get(mFirstElement + 1);
-      returnArray[2] = mMainList.get(mFirstElement + 2);
-      returnArray[3] = mMainList.get(mFirstElement + 3);
-      returnArray[4] = mMainList.get(mFirstElement + 4);
+      for (int i = 0; i < mRangeSize; i++)
+      {
+         if ((mFirstElement + i) >= mNumElements)
+         {
+            break;
+         }
+         else
+         {
+            returnArray[i] = mMainList.get(mFirstElement + i);
+         }
+      }
 
       if (pIncrement)
       {
-         mFirstElement = mLastElement;
-         mLastElement = mFirstElement + mRangeSize;
+         incrementRange();
       }
 
       return returnArray;
+   }
+
+   public boolean lastFound()
+   {
+      return mLastFound;
    }
 
    /**
@@ -89,8 +105,15 @@ public class NumericQueue
 
    private void incrementRange()
    {
-      incrementEnd();
-      incrementStart();
+      mFirstElement = mLastElement;
+      if ((mFirstElement + mRangeSize) <= mNumElements - 1)
+      {
+         mLastElement = mFirstElement + mRangeSize;
+      }
+      else
+      {
+         mLastFound = true;
+      }
    }
 
 
