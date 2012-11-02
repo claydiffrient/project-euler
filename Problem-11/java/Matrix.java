@@ -70,4 +70,30 @@ public class Matrix<Type>
       return mMainArray.get(row).size();
    }
 
+   /**
+    * Testing Main
+    */
+   public static void main(String[] args)
+   {
+      Matrix testing = new Matrix();
+      testing.add(1,0);
+      testing.add(2,0);
+      testing.add(3,0);
+      testing.add(4,1);
+      testing.add(5,1);
+      testing.add(6,1);
+      testing.add(7,2);
+      testing.add(8,2);
+      testing.add(9,2);
+
+      for (int r = 0; r < testing.getNumRows(); r++)
+      {
+         for (int c = 0; c < testing.getNumCols(r); c++)
+         {
+            System.out.print(testing.get(r,c) + " ");
+         }
+         System.out.print("\n");
+      }
+   } 
+
 }
