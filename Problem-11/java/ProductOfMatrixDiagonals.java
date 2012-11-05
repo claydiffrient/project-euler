@@ -190,6 +190,38 @@ public class ProductOfMatrixDiagonals
       }
    }
 
+   /**
+    * Adds all the horizontal rows.
+    */
+   private void addHorizontalRows()
+   {
+
+   }
+
+   /**
+    * Adds all the vertical Rows
+    */
+   private void addVerticalRows()
+   {
+
+   }
+
+   /**
+    * Adds all the negative slope diagonals
+    */
+   private void multiplyNegSlopeDiagonals()
+   {
+
+   }
+
+   /**
+    * Multiplies all the positive slope diagonals
+    */
+   private void multiplyPosSlopeDiagonals()
+   {
+
+   }
+
 
    /**
     * Main method.

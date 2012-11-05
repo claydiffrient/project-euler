@@ -70,6 +70,18 @@ public class Matrix<Type>
       return mMainArray.get(row).size();
    }
 
+   public void display()
+   {
+      for (int r = 0; r < getNumRows(); r++)
+      {
+         for (int c = 0; c < getNumCols(r); c++)
+         {
+            System.out.print(get(r,c) + " ");
+         }
+         System.out.print("\n");
+      }
+   }
+
    /**
     * Testing Main
     */
@@ -86,14 +98,7 @@ public class Matrix<Type>
       testing.add(8,2);
       testing.add(9,2);
 
-      for (int r = 0; r < testing.getNumRows(); r++)
-      {
-         for (int c = 0; c < testing.getNumCols(r); c++)
-         {
-            System.out.print(testing.get(r,c) + " ");
-         }
-         System.out.print("\n");
-      }
-   } 
+      testing.display();
+   }
 
 }
