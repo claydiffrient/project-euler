@@ -8,7 +8,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scence.control.Button;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -29,7 +29,8 @@ public class ProductOfAdjacents
     */
    public void start(Stage primaryStage)
    {
-      Button btn = new Button().setText("Calculate");
+      Button btn = new Button();
+      btn.setText("Calculate");
       StackPane root = new StackPane();
       btn.setOnAction(new EventHandler<ActionEvent>()
                       {
@@ -51,7 +52,7 @@ public class ProductOfAdjacents
     *
     * Handles the calculation of the products of adjacent numbers.
     */
-   public void performCalcuation()
+   public void performCalculation()
    {
       System.out.println("Called");
    }
