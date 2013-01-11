@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * ProductOfAdjacents
@@ -127,11 +128,60 @@ public class ProductOfAdjacents
          stringValues.add(myIterator.next().toString());
       }
       Iterator<String> stringIterator = stringValues.iterator();
+      ArrayList<String[]> stringArrays = new ArrayList<String[]>();
       while (stringIterator.hasNext())
       {
-         System.out.println(stringIterator.next());
+         stringArrays.add(splitToArray(stringIterator.next()));
       }
+      Iterator<String[]> saIterator = stringArrays.iterator();
+      String[] strings = new String[0];
+      while (saIterator.hasNext())
+      {
+         strings = combineStringArrays(strings, saIterator.next());
+      }
+      for (int i = 0; i < strings.length; i++ )
+      {
+         System.out.println(strings[i]);
+      }
+   }
 
+   /**
+    * splitToArray
+    *
+    * Will split a string into an Array based on spaces.
+    *
+    * @param string - The string to split.
+    * @return String[]
+    */
+   private String[] splitToArray(String string)
+   {
+      return string.split(" ");
+   }
+
+   /**
+    * combineStringArrays
+    *
+    * Combines an arbitrary amount of String Arrays into one String Array
+    *
+    * @param first - The first String[]
+    * @param rest - a variable amount of String[] to concatenate
+    * @return String[]
+    */
+   public String[] combineStringArrays(String[] first, String[]... rest)
+   {
+      int totalLength = first.length;
+      for (String[] array : rest )
+      {
+         totalLength += array.length;
+      }
+      String[] result = Arrays.copyOf(first, totalLength);
+      int offset = first.length;
+      for (String[] array : rest )
+      {
+         System.arraycopy(array, 0, result, offset, array.length);
+         offset += array.length;
+      }
+      return result;
    }
 
    /**
