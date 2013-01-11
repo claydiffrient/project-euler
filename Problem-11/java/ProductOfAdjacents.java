@@ -16,6 +16,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
+import javafx.collections.ObservableList;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * ProductOfAdjacents
@@ -25,6 +29,17 @@ import javafx.geometry.Pos;
 public class ProductOfAdjacents
    extends Application
 {
+
+   /**
+    * Holds text from the entry box.
+    */
+   ObservableList<CharSequence> mText;
+
+   /**
+    * Holds the text area.
+    */
+   TextArea mMatrixArea = new TextArea();
+
    /**
     * start
     *
@@ -37,12 +52,11 @@ public class ProductOfAdjacents
 
       BorderPane root = new BorderPane();
 
-      TextArea matrixEntry = new TextArea();
       primaryStage.setTitle("Products of Adjacents");
 
       root.setTop(new Text("Sum Adjacents"));
       root.setBottom(generateButtonPanel());
-      root.setCenter(matrixEntry);
+      root.setCenter(mMatrixArea);
       primaryStage.setScene(new Scene(root, 300, 250));
       primaryStage.show();
 
@@ -105,6 +119,19 @@ public class ProductOfAdjacents
    public void performCalculation()
    {
       System.out.println("Called");
+      mText = mMatrixArea.getParagraphs();
+      Iterator<CharSequence> myIterator = mText.iterator();
+      List<String> stringValues = new ArrayList<String>();
+      while (myIterator.hasNext())
+      {
+         stringValues.add(myIterator.next().toString());
+      }
+      Iterator<String> stringIterator = stringValues.iterator();
+      while (stringIterator.hasNext())
+      {
+         System.out.println(stringIterator.next());
+      }
+
    }
 
    /**
