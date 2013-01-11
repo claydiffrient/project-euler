@@ -119,8 +119,8 @@ public class ProductOfAdjacents
     */
    public void performCalculation()
    {
-      System.out.println("Called");
       mText = mMatrixArea.getParagraphs();
+      Matrix input = new Matrix<Integer>();
       Iterator<CharSequence> myIterator = mText.iterator();
       List<String> stringValues = new ArrayList<String>();
       while (myIterator.hasNext())
@@ -134,15 +134,20 @@ public class ProductOfAdjacents
          stringArrays.add(splitToArray(stringIterator.next()));
       }
       Iterator<String[]> saIterator = stringArrays.iterator();
-      String[] strings = new String[0];
+      int counter = 0;
       while (saIterator.hasNext())
       {
-         strings = combineStringArrays(strings, saIterator.next());
+         String[] row = saIterator.next();
+         for (int i = 0; i < row.length; i++)
+         {
+            input.add(Integer.parseInt(row[i]), counter);
+         }
+         counter++;
       }
-      for (int i = 0; i < strings.length; i++ )
-      {
-         System.out.println(strings[i]);
-      }
+      input.display();
+      //TODO: Fix the getNumCols so that it doesn't use a constant.
+      System.out.println(input.getNumRows() + "x" + input.getNumCols(1));
+
    }
 
    /**

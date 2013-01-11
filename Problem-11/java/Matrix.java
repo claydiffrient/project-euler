@@ -65,6 +65,7 @@ public class Matrix<Type>
       return mMainArray.size();
    }
 
+   //TODO: Implement a zero parameter version of this function.
    public int getNumCols(int row)
    {
       return mMainArray.get(row).size();
