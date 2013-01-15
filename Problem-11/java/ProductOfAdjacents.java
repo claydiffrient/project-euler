@@ -119,6 +119,7 @@ public class ProductOfAdjacents
     */
    public void performCalculation()
    {
+      //TODO: Clean all this up some
       mText = mMatrixArea.getParagraphs();
       Matrix input = new Matrix<Integer>();
       Iterator<CharSequence> myIterator = mText.iterator();
