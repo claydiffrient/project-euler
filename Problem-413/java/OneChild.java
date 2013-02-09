@@ -45,11 +45,12 @@ public class OneChild
       for (BigInteger i = mLess; i.compareTo(BigInteger.ZERO) > 0; i = i.subtract(BigInteger.ONE))
       {
          System.out.println(i.toString());
-         if (determineOneChildTwo(i.toString()))
+         if (determineOneChild(i.toString()))
          {
             mCount++;
          }
       }
+      System.out.println("Total Count: " + mCount);
    }
 
    public boolean determineOneChildTwo(String pInt)
@@ -57,7 +58,7 @@ public class OneChild
       int length = pInt.length();
       int count = 0;
       BigInteger len = new BigInteger(Integer.toString(length));
-      while (pInt.length() > 0)
+      while (length > 0)
       {
          BigInteger sub = new BigInteger(pInt);
          BigInteger remainder = sub.remainder(len);
@@ -71,32 +72,11 @@ public class OneChild
          }
          for (int i = 1; i < pInt.length(); i++)
          {
-            String subOne = pInt.substring(i);
-            BigInteger subOneA = new BigInteger(subOne);
-            BigInteger subOneR = subOneA.remainder(len);
-            if (subOneR.equals(BigInteger.ZERO))
-            {
-               count++;
-               if (count > 1)
-               {
-                  return false;
-               }
-            }
-            String subTwo = pInt.substring(0, i);
-            BigInteger subTwoA = new BigInteger(subTwo);
-            BigInteger subTwoR = subTwoA.remainder(len);
-            if (subTwoR.equals(BigInteger.ZERO))
-            {
-               count++;
-               if (count > 1)
-               {
-                  return false;
-               }
-            }
+            pInt.substring(i);
+            pInt.substring(0, i);
          }
          pInt = pInt.substring(1, Math.max(pInt.length() - 1, 1));
       }
-      return true;
    }
 
 //   private boolean checkDivisible(BigInteger remainder, BigInteger)
