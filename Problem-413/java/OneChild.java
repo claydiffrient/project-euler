@@ -53,6 +53,34 @@ public class OneChild
       System.out.println("Total Count: " + mCount);
    }
 
+   public boolean determineOneChildTwo(String pInt)
+   {
+      int length = pInt.length();
+      int count = 0;
+      BigInteger len = new BigInteger(Integer.toString(length));
+      while (length > 0)
+      {
+         BigInteger sub = new BigInteger(pInt);
+         BigInteger remainder = sub.remainder(len);
+         if (remainder.equals(BigInteger.ZERO))
+         {
+            count++;
+            if (count > 1)
+            {
+               return false;
+            }
+         }
+         for (int i = 1; i < pInt.length(); i++)
+         {
+            pInt.substring(i);
+            pInt.substring(0, i);
+         }
+         pInt = pInt.substring(1, Math.max(pInt.length() - 1, 1));
+      }
+   }
+
+//   private boolean checkDivisible(BigInteger remainder, BigInteger)
+
    public boolean determineOneChild(String pInt)
    {
       int length = pInt.length();
