@@ -3,8 +3,6 @@
  */
 
 import java.math.BigInteger;
-import java.util.List;
-import java.util.ArrayList;
 
 public class OneChild
    implements Runnable
@@ -25,16 +23,10 @@ public class OneChild
    private BigInteger mLess = null;
 
    /**
-    * Holds all checked strings.
-    */
-   private List<String> mCheckedStrings;
-
-   /**
     * Constructor
     */
    public OneChild(String pLessThan)
    {
-      mCheckedStrings = new ArrayList<String>();
       mCount = 0;
       mLessThan = pLessThan;
       try
@@ -58,7 +50,6 @@ public class OneChild
             mCount++;
          }
       }
-      System.out.println("Count: " + mCount);
    }
 
    public boolean determineOneChildTwo(String pInt)
@@ -68,12 +59,22 @@ public class OneChild
       BigInteger len = new BigInteger(Integer.toString(length));
       while (pInt.length() > 0)
       {
-         if (!mCheckedStrings.contains(pInt))
+         BigInteger sub = new BigInteger(pInt);
+         BigInteger remainder = sub.remainder(len);
+         if (remainder.equals(BigInteger.ZERO))
          {
-            BigInteger sub = new BigInteger(pInt);
-            BigInteger remainder = sub.remainder(len);
-            mCheckedStrings.add(pInt);
-            if (remainder.equals(BigInteger.ZERO))
+            count++;
+            if (count > 1)
+            {
+               return false;
+            }
+         }
+         for (int i = 1; i < pInt.length(); i++)
+         {
+            String subOne = pInt.substring(i);
+            BigInteger subOneA = new BigInteger(subOne);
+            BigInteger subOneR = subOneA.remainder(len);
+            if (subOneR.equals(BigInteger.ZERO))
             {
                count++;
                if (count > 1)
@@ -81,31 +82,15 @@ public class OneChild
                   return false;
                }
             }
-            for (int i = 1; i < pInt.length(); i++)
+            String subTwo = pInt.substring(0, i);
+            BigInteger subTwoA = new BigInteger(subTwo);
+            BigInteger subTwoR = subTwoA.remainder(len);
+            if (subTwoR.equals(BigInteger.ZERO))
             {
-               String subOne = pInt.substring(i);
-               mCheckedStrings.add(subOne);
-               BigInteger subOneA = new BigInteger(subOne);
-               BigInteger subOneR = subOneA.remainder(len);
-               if (subOneR.equals(BigInteger.ZERO))
+               count++;
+               if (count > 1)
                {
-                  count++;
-                  if (count > 1)
-                  {
-                     return false;
-                  }
-               }
-               String subTwo = pInt.substring(0, i);
-               mCheckedStrings.add(subTwo);
-               BigInteger subTwoA = new BigInteger(subTwo);
-               BigInteger subTwoR = subTwoA.remainder(len);
-               if (subTwoR.equals(BigInteger.ZERO))
-               {
-                  count++;
-                  if (count > 1)
-                  {
-                     return false;
-                  }
+                  return false;
                }
             }
          }
