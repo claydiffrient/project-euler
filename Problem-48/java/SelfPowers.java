@@ -28,7 +28,7 @@ public class SelfPowers
    public void run()
    {
       BigInteger totalSum = BigInteger.ZERO;
-      for (int i = 1; i < mMaxNumber; i++)
+      for (int i = 1; i <= mMaxNumber; i++)
       {
          totalSum = totalSum.add(power(i,i));
       }
