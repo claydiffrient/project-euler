@@ -38,7 +38,6 @@ public class TriangleNumbers
          }
       }
       System.out.print("Factors: ");
-      //long[] facArray = factors.toArray(long);
       for (int i = 0; i < factors.size(); i++)
       {
          System.out.print(factors.get(i) + ", ");
