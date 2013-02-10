@@ -17,30 +17,29 @@ public class PowerDigitSum
       mTwoToPower = BigInteger.ZERO;
    }
 
-   BigInteger getPowerOfTwo(pNum)
+   BigInteger getPowerOfTwo(int pNum)
    {
-      if (pNum.equals(BigInteger.ZERO))
+      if (pNum == 0)
       {
          return BigInteger.ONE;
       }
       else
       {
-         BigInteger answer = BigInteger.ONE;
-         int count = 1;
-         while (count <= mPower)
-         {
-            answer = answer.multiply(2);
-            count++;
-         }
-         return answer;
+         return (new BigInteger("2").multiply(getPowerOfTwo(pNum -1)));
       }
    }
 
    public void run()
    {
       mTwoToPower = getPowerOfTwo(mPower);
-      System.out.println(mTwoToPower);
-
+      String numbers = mTwoToPower.toString();
+      int sum = 0;
+      for (int i = 0; i < numbers.length(); i++)
+      {
+         sum += Character.getNumericValue(numbers.charAt(i));
+      }
+      System.out.println("2^" + mPower + " = " + mTwoToPower +
+                         " and the sum of all it's digits is " + sum);
    }
 
    public static void main(String[] args)
