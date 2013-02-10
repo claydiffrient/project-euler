@@ -35,20 +35,18 @@ public class AmicableNumberSum
          }
       }
       long sum = 0;
-      System.out.print("Factors: ");
       for (Long i : factors)
       {
-         System.out.print(i + " + ");
          sum += i;
       }
-      System.out.print(" = " + sum + "\n");
       return sum;
    }
 
    boolean isAmicable(long pNum)
    {
       long sumOne = findFactorsSum(pNum);
-      if (findFactorsSum(sumOne) == pNum)
+      long sumTwo = findFactorsSum(sumOne);
+      if ((sumTwo == pNum) && (sumTwo != sumOne))
       {
          return true;
       }
@@ -60,7 +58,6 @@ public class AmicableNumberSum
       int sum = 0;
       for (int i = 0; i <= mMaxNum; i++)
       {
-         System.out.println("Checking: " + i);
          if (isAmicable(i))
          {
             sum += i;
