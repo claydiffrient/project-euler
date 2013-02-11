@@ -25,7 +25,7 @@ public class AmicableChains
    {
       for (int i = 2; i <= mLargestElement / 2; i++)
       {
-         for (int j = i + 1; j <= mLargestElement; j += i)
+         for (int j = i + i; j <= mLargestElement; j += i)
          {
             mSums[j] += i;
          }
