@@ -5,122 +5,86 @@
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AmicableChains
    implements Runnable
 {
 
    int mLargestElement;
-   List<Integer> mLongestChain;
-   List<Integer> mCurrentChain;
+   int[] mSums;
 
    public AmicableChains(int pLargest)
    {
       mLargestElement = pLargest;
-      mLongestChain = new ArrayList<Integer>();
-      mCurrentChain = new ArrayList<Integer>();
+      mSums = new int[mLargestElement + 1];
+      Arrays.fill(mSums, 1);
    }
 
-   private int findFactorsSum(int pNum)
+   private void fillSums()
    {
-      int n = pNum;
-      int upper = pNum;
-      List<Integer> factors = new ArrayList<Integer>();
-      factors.add(new Integer(1));
-      for (int i = 2; i < upper; i++)
+      for (int i = 2; i <= mLargestElement / 2; i++)
       {
-         if ((n % i) == 0)
+         for (int j = i + 1; j <= mLargestElement; j += i)
          {
-            upper = n / i;
-            factors.add(i);
-            if (upper != i)
-            {
-               factors.add(upper);
-            }
+            mSums[j] += i;
          }
       }
-      int sum = 0;
-      for (Integer i : factors)
-      {
-         sum += i;
-      }
-      return sum;
-   }
-
-   private int processChain(int pNum)
-   {
-      if ((mCurrentChain.contains(pNum)) || (pNum > mLargestElement) || (pNum == 1))
-      {
-         if (mCurrentChain.size() > mLongestChain.size())
-         {
-            mLongestChain = mCurrentChain;
-         }
-         return pNum;
-      }
-      else
-      {
-         mCurrentChain.add(pNum);
-         return processChain(findFactorsSum(pNum));
-      }
-
-   }
-
-   void processAmicableChain(int pNum)
-   {
-      List<Integer> chain = new ArrayList<Integer>();
-      chain.add(pNum);
-      int nextNum = findFactorsSum(pNum);
-      int prevNum = pNum;
-      boolean amicable = false;
-      while (nextNum < mLargestElement)
-      {
-         if (!chain.contains(nextNum))
-         {
-            chain.add(nextNum);
-            nextNum = findFactorsSum(nextNum);
-         }
-         else
-         {
-            if (nextNum == 1)
-            {
-               amicable = false;
-            }
-            else
-            {
-               amicable = true;
-            }
-            break;
-         }
-
-      }
-      if (amicable && (chain.size() > mLongestChain.size()))
-      {
-         mLongestChain = chain;
-      }
-
    }
 
    public void run()
    {
-      for (int i = 10; i < mLargestElement; i++)
+      fillSums();
+      int[] chainLength = new int[mLargestElement + 1]; // -1 means no chain.
+      chainLength[1] = -1;
+      chainLength[2] = -1;
+      chainLength[3] = -1;
+      chainLength[4] = -1;
+
+      for (int i = 5; i <= mLargestElement; i++)
       {
-         System.out.println("Checking: " + i);
-         //processAmicableChain(i);
-         processChain(i);
+         if (chainLength[i] != 0)
+         {
+            continue;
+         }
+         List<Integer> chain = new ArrayList<Integer>();
+         chain.add(i);
+         int next = mSums[i];
+         while (true)
+         {
+            if (next > mLargestElement || chainLength[next] != 0)
+            {
+               for (Integer n : chain)
+               {
+                  chainLength[n] = -1;
+               }
+               break;
+            }
+            int index = chain.indexOf(next);
+            if (index >= 0)
+            {
+               for (int j = 0; j < index; j++)
+               {
+                  chainLength[chain.get(j)] = -1;
+               }
+               for (int j = index; j < chain.size(); j++)
+               {
+                  chainLength[chain.get(j)] = chain.size();
+               }
+               break;
+            }
+            chain.add(next);
+            next = mSums[next];
+         }
       }
       int smallestMember = 0;
-      for (int i = 0; i < mLongestChain.size(); i++)
+      int longestChain = 0;
+      for (int i = 2; i <= mLargestElement; i++)
       {
-         if (i < 1)
+         if (chainLength[i] > longestChain)
          {
-            smallestMember = mLongestChain.get(i);
-         }
-         else
-         {
-            if (mLongestChain.get(i) < smallestMember)
-            {
-               smallestMember = mLongestChain.get(i);
-            }
+            longestChain = chainLength[i];
+            smallestMember = i;
          }
       }
       System.out.println("Smallest member of longest chain is:" + smallestMember);
