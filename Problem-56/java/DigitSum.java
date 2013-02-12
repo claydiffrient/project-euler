@@ -31,9 +31,11 @@ public class DigitSum
    {
       for (int a = 0; a < mLimit; a++)
       {
+         System.out.println("A=" + a);
          BigInteger aBig = new BigInteger(String.valueOf(a));
-         for (int b = 0; a < mLimit; b++)
+         for (int b = 0; b < mLimit; b++)
          {
+            System.out.println("B=" + b);
             int value = getDigitSum(aBig.pow(b));
             if (value > mMaxSum)
             {
