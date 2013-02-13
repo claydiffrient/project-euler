@@ -2,72 +2,72 @@
  * Solution to Euler #164
  */
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.math.BigInteger;
 
 public class ConsecutiveSums
    implements Runnable
 {
-   List<BigInteger> mListOfNumbers;
    int mSumLimit;
    int mNumConsec;
    int mNumDigits;
+   long[][][] mCount;
 
    public ConsecutiveSums(int pSumLimit, int pConsec, int pNumDigits)
    {
-      mListOfNumbers = new ArrayList<BigInteger>();
       mSumLimit = pSumLimit;
       mNumConsec = pConsec;
       mNumDigits = pNumDigits;
+      mCount = new long[10][10][mNumDigits];
    }
 
-   BigInteger getLowerRange()
+   long getLowerRange()
    {
       String start = "1";
       for (int i = 0; i < mNumDigits - 1; i++)
       {
          start += "0";
       }
-      return new BigInteger(start);
+      return Long.parseLong(start);
    }
 
-   BigInteger getUpperRange()
+   long getUpperRange()
    {
       String start = "9";
       for (int i = 0; i < mNumDigits - 1; i++)
       {
          start += "9";
       }
-      return new BigInteger(start);
+      return Long.parseLong(start);
+   }
+
+   private long getCount(int pDOne, int pDTwo, int pRemain)
+   {
+      if (pRemain == 0)
+      {
+         return 1;
+      }
+      else
+      {
+         if (mCount[pDOne][pDTwo][pRemain] == 0)
+         {
+            for (int i = 0; i <= mSumLimit - (pDOne+pDTwo); i++)
+            {
+               mCount[pDOne][pDTwo][pRemain] += getCount(pDTwo, i, pRemain - 1);
+            }
+         }
+         return mCount[pDOne][pDTwo][pRemain];
+      }
    }
 
    public void run()
    {
-      int count = 0;
-      BigInteger a = getLowerRange();
-      BigInteger b = getUpperRange();
-      for (BigInteger c = a ; c.compareTo(b) < 0; c = c.add(BigInteger.ONE))
+      long count = 0;
+      for (int i = 1; i <= 9; i++)
       {
-         String num = c.toString();
-         System.out.println(num);
-         char[] digits = num.toCharArray();
-         for (int i = digits.length - 1; i > 2; i--)
-         {
-            int sum = 0;
-            sum += Character.getNumericValue(digits[i]);
-            sum += Character.getNumericValue(digits[i - 1]);
-            sum += Character.getNumericValue(digits[i - 2]);
-            if (sum < 9)
-            {
-               count++;
-            }
-            else
-            {
-               break;
-            }
-         }
+         count += getCount(0, i, mNumDigits - 1);
       }
       System.out.println("Count is:" + count);
 
