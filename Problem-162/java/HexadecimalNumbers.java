@@ -14,67 +14,16 @@ public class HexadecimalNumbers
       mNumDigits = pNumDigits;
    }
 
-   private boolean checkDigits(BigInteger pInt)
-   {
-      String hex = pInt.toString(16);
-      boolean containsZero = false;
-      boolean containsOne = false;
-      boolean containsA = false;
-      for (int i = 0; i < hex.length(); i++)
-      {
-         if (hex.charAt(i) == '0')
-         {
-            containsZero = true;
-         }
-         else if (hex.charAt(i) == '1')
-         {
-            containsOne = true;
-         }
-         else if (hex.charAt(i) == 'a')
-         {
-            containsA = true;
-         }
-         if (containsA && containsOne && containsZero)
-         {
-            System.out.println("***********ALL**********");
-            return true;
-         }
-      }
-      if (containsA && containsOne && containsZero)
-      {
-         System.out.println("***********ALL**********");
-         return true;
-      }
-      else
-      {
-         return false;
-      }
-   }
-
-   BigInteger getUpperLimit()
-   {
-      String limit = "";
-      for (int i = 0; i < mNumDigits; i++)
-      {
-         limit += "F";
-      }
-      return new BigInteger(limit, 16);
-   }
-
    public void run()
    {
-      BigInteger value = new BigInteger("256");
-      BigInteger upper = getUpperLimit();
-      int count = 0;
-      for (BigInteger i = value; i.compareTo(upper) < 0; i = i.add(BigInteger.ONE))
+      BigInteger count = BigInteger.ZERO;
+      for (int i = 2; i <= mNumDigits; i++)
       {
-         if (checkDigits(i))
-         {
-            System.out.println(i + "=" + i.toString(16));
-            count++;
-         }
+         long value = (long) (15 *  Math.pow(16, i-1) + 41 * Math.pow(14, i-1) - (43 * Math.pow(15, i-1) + Math.pow(13, i)));
+         String string = String.valueOf(value);
+         count = count.add(new BigInteger(string));
       }
-      System.out.println(count);
+      System.out.println(count.toString(16));
 
    }
 
