@@ -20,7 +20,15 @@ public class Semiprime
          while (pNum % i == 0)
          {
             count++;
+            if (count > 2)
+            {
+               break;
+            }
             pNum /= i;
+         }
+         if (count > 2)
+         {
+            break;
          }
       }
       return count;
