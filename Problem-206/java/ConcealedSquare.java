@@ -2,74 +2,52 @@
  * Solution to Project Euler #206
  */
 
-import java.math.BigInteger;
+
 
 public class ConcealedSquare
    implements Runnable
 {
+   long mStart = 1000000000;
+   long mEnd = 1389026623;
 
-   public boolean checkNumber(BigInteger pNum)
+   public static void checkNumber(long pStart, long pEnd, long pIncrement)
    {
-      String string = pNum.toString();
-      if (string.length() < 19)
+      for (long current = pStart; current < pEnd; current += pIncrement)
       {
-         return false;
+         String string = String.valueOf(current * current);
+         boolean isValid = true;
+         for (int i = 1; i <= 9 && isValid; i++)
+         {
+            if (string.charAt(2 * (i-1)) != '0' + i)
+            {
+               isValid = false;
+            }
+         }
+         if (string.charAt(2*(10-1)) != '0')
+         {
+            isValid = false;
+         }
+         if (isValid)
+         {
+            System.out.println("Solution:" + current);
+         }
       }
-      if (string.charAt(0) != '1')
-      {
-         return false;
-      }
-      if (string.charAt(2) != '2')
-      {
-         return false;
-      }
-      if (string.charAt(4) != '3')
-      {
-         return false;
-      }
-      if (string.charAt(6) != '4')
-      {
-         return false;
-      }
-      if (string.charAt(8) != '5')
-      {
-         return false;
-      }
-      if (string.charAt(10) != '6')
-      {
-         return false;
-      }
-      if (string.charAt(12) != '7')
-      {
-         return false;
-      }
-      if (string.charAt(14) != '8')
-      {
-         return false;
-      }
-      if (string.charAt(16) != '9')
-      {
-         return false;
-      }
-      if (string.charAt(18) != '0')
-      {
-         return false;
-      }
-      return true;
    }
 
    public void run()
    {
-      boolean found = false;
-      BigInteger value = BigInteger.valueOf(1100000000);
-      while (!found)
-      {
-         BigInteger check = value.multiply(value);
-         found = checkNumber(check);
-         value = value.add(BigInteger.ONE);
-         System.out.println(value + "^2 = " + check);
-      }
-      System.out.println("Found:" + value);
+      new Thread(){
+         public void run()
+         {
+            checkNumber(mStart + 30, mEnd, 100);
+         }
+      }.start();
+      new Thread(){
+         public void run()
+         {
+            checkNumber(mStart + 70, mEnd, 100);
+         }
+      }.start();
    }
 
 
