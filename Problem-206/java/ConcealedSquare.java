@@ -72,6 +72,8 @@ public class ConcealedSquare
       System.out.println("Found:" + value);
    }
 
+
+
    public static void main(String[] args)
    {
       new ConcealedSquare().run();
