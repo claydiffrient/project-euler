@@ -26,9 +26,10 @@ public class PandigitalMultiples
    private long concatenateProduct(long pNum, long pUpper)
    {
       String returnString = "";
-      for (long i = 0; i <= pUpper; i++)
+      for (long i = 1; i <= pUpper; i++)
       {
          returnString += pNum * i;
+         //System.out.println("ReturnString:" + returnString);
       }
       if (returnString.length() > 9)
       {
@@ -36,7 +37,7 @@ public class PandigitalMultiples
       }
       if (returnString.length() > 1)
       {
-         if (returnString.charAt(0) == 0)
+         if (returnString.charAt(0) == '0')
          {
             return 0;
          }
@@ -78,11 +79,13 @@ public class PandigitalMultiples
    public void run()
    {
       long largest = 0;
-      for (long i = 0; i < 8000; i++)
+      for (long i = 9000; i < 9999; i++)
       {
-         for (long j = 1; j < 8000; i++)
+         for (long j = 1; j < 100; j++)
          {
+            System.out.println("i=" + i + " " + "j=" + j);
             long value = concatenateProduct(i, j);
+            System.out.println(value);
             if (isNineDigitPandigital(value))
             {
                if (value > largest)
@@ -92,6 +95,7 @@ public class PandigitalMultiples
             }
          }
       }
+      System.out.println("Largest" + largest);
    }
 
    /**
