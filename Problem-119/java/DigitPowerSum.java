@@ -8,6 +8,9 @@
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class DigitPowerSum
    implements Runnable
@@ -25,7 +28,7 @@ public class DigitPowerSum
    /**
     * Array for Memoizized values.
     */
-   int[][] mPowerValues;
+   BigInteger[][] mPowerValues;
 
    /**
     * Default constructor
@@ -34,18 +37,23 @@ public class DigitPowerSum
    {
       mTermNum = pTermNum;
       mSequence = new BigInteger[mTermNum + 2];
-      mPowerValues = new int[40][500];
+      mPowerValues = new BigInteger[100][500];
+      for (BigInteger[] row : mPowerValues)
+      {
+         Arrays.fill(row, BigInteger.ZERO);
+      }
    }
 
-   int getPower(int pNum, int pPower)
+   BigInteger getPower(int pNum, int pPower)
    {
-      if (!(mPowerValues[pPower][pNum] == 0))
+      if (!(mPowerValues[pPower][pNum].compareTo(BigInteger.ZERO) == 0))
       {
          return mPowerValues[pPower][pNum];
       }
       else
       {
-         mPowerValues[pPower][pNum] = (int) Math.pow(pNum, pPower);
+         BigInteger pNumBI = new BigInteger(String.valueOf(pNum));
+         mPowerValues[pPower][pNum] = pNumBI.pow(pPower) ;
          return mPowerValues[pPower][pNum];
       }
    }
@@ -92,23 +100,50 @@ public class DigitPowerSum
       return false;
    }
 
+   public int getSum(BigInteger pValue)
+   {
+      String string = pValue.toString();
+      int sum = 0;
+      for (int i = 0; i < string.length(); i++)
+      {
+         sum += Character.getNumericValue(string.charAt(i));
+      }
+      return sum;
+   }
+
+
    /**
     * Run all the code in a thread.
     */
    public void run()
    {
-      mSequence[2] = new BigInteger("512");
-      mSequence[10] = new BigInteger("614656");
-      for (int i = 11; i <= mTermNum; i++)
+      List<BigInteger> aValues = new ArrayList<BigInteger>();
+      for (int a = 2; a < 400; a++)
       {
-         BigInteger j = mSequence[i-1];
-         System.out.println(i);
-         System.out.println(j);
-         mSequence[i] = testPowerSum(j.add(BigInteger.ONE));
+         BigInteger value = new BigInteger(String.valueOf(a));
+         for (int b = 2; b < 50; b++)
+         {
+            value = getPower(a, b);
+            if (getSum(value) == a)
+            {
+               aValues.add(value);
+            }
+            if (aValues.size() > mTermNum)
+            {
+               break;
+            }
+         }
+         if (aValues.size() > mTermNum)
+         {
+            break;
+         }
       }
-      for (int i = 0; i < mSequence.length; i++ )
+      Collections.sort(aValues);
+      int count = 1;
+      for (BigInteger bi : aValues )
       {
-         System.out.println("mSequence[" + i + "] =" + mSequence[i]);
+         System.out.println(count + " : " + bi);
+         count++;
       }
    }
 
