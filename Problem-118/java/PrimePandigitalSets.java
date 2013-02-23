@@ -6,6 +6,8 @@
 * Github/Twitter: @claydiffrient
 */
 
+import java.lang.ArrayIndexOutOfBoundsException;
+
 public class PrimePandigitalSets
    implements Runnable
 {
@@ -25,15 +27,34 @@ public class PrimePandigitalSets
 
    private void sievePrimes()
    {
-      for (int i = 2; i < (int) Math.sqrt(PRIME_SIZE); i++)
+      sievePrimes(PRIME_SIZE);
+   }
+
+   private void sievePrimes(int pVal)
+   {
+      for (int i = 2; i < (int) Math.sqrt(pVal); i++)
       {
          if (mPrimes[i])
          {
-            for (int j = i*i; j < PRIME_SIZE; j = j+i)
+            for (int j = i*i; j < pVal; j = j+i)
             {
                mPrimes[j] = false;
             }
          }
+      }
+   }
+
+   public boolean isPrime(int pNum)
+   {
+      try
+      {
+         return mPrimes[pNum];
+      }
+      catch (ArrayIndexOutOfBoundsException e)
+      {
+         mPrimes = new boolean[pNum + 100];
+         sievePrimes(pNum + 100);
+         return mPrimes[pNum];
       }
    }
 
@@ -43,6 +64,8 @@ public class PrimePandigitalSets
    public void run()
    {
       sievePrimes();
+      System.out.println(isPrime(99999));
+      System.out.println(isPrime(200000));
    }
 
    /**
