@@ -7,6 +7,9 @@
 */
 
 import java.lang.ArrayIndexOutOfBoundsException;
+import java.util.SortedSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class PrimePandigitalSets
    implements Runnable
@@ -15,6 +18,7 @@ public class PrimePandigitalSets
    int mNumSets;
    boolean[] mPrimes;
    final int PRIME_SIZE = 100000;
+   SortedSet<String> mSetOfPermutations;
 
    /**
     * Default constructor
@@ -23,6 +27,7 @@ public class PrimePandigitalSets
    {
       mNumSets = 0;
       mPrimes = new boolean[PRIME_SIZE];
+      mSetOfPermutations = new TreeSet<String>();
    }
 
    private void sievePrimes()
@@ -44,6 +49,43 @@ public class PrimePandigitalSets
       }
    }
 
+   private void fillPermutations()
+   {
+      mSetOfPermutations = fillPermutations("123456789");
+   }
+
+   private SortedSet<String> fillPermutations(String pNum)
+   {
+      SortedSet<String> permutations = new TreeSet<String>();
+      if (pNum == null)
+      {
+         return null;
+      }
+      else if (pNum.length() == 0)
+      {
+         mSetOfPermutations.add("");
+         return permutations;
+      }
+      char first = pNum.charAt(0);
+      String remaining = pNum.substring(1);
+      Set<String> words = fillPermutations(remaining);
+      for (String string : words)
+      {
+         for (int i = 0; i <= string.length(); i++)
+         {
+            permutations.add(insertChar(string, first, i));
+         }
+      }
+      return permutations;
+   }
+
+   private String insertChar(String pString, char pChar, int pPos)
+   {
+      String begin = pString.substring(0, pPos);
+      String end = pString.substring(pPos);
+      return begin + pChar + end;
+   }
+
    public boolean isPrime(int pNum)
    {
       try
@@ -58,14 +100,27 @@ public class PrimePandigitalSets
       }
    }
 
+   private boolean checkPrimeSet(String pNum)
+   {
+      return true;
+   }
+
    /**
     * Run all the code in a thread.
     */
    public void run()
    {
+      int count = 0;
       sievePrimes();
-      System.out.println(isPrime(99999));
-      System.out.println(isPrime(200000));
+      fillPermutations();
+      for (String permutation : mSetOfPermutations )
+      {
+         if (checkPrimeSet(permutation))
+         {
+            count++;
+         }
+      }
+      System.out.println("Count = " + count);
    }
 
    /**
