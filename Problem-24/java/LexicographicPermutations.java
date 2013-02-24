@@ -47,36 +47,21 @@ public class LexicographicPermutations
       mPermutations = new TreeSet<String>();
    }
 
-   private SortedSet<String> fillPermutations(String pNum)
+   private void fillPermutations(String prefix, String str)
    {
-      SortedSet<String> permutations = new TreeSet<String>();
-      if (pNum == null)
+      int n = str.length();
+      if (n == 0)
       {
-         return null;
+         mPermutations.add(prefix);
       }
-      else if (pNum.length() == 0)
+      else
       {
-         mPermutations.add("");
-         return permutations;
-      }
-      char first = pNum.charAt(0);
-      String remaining = pNum.substring(1);
-      SortedSet<String> words = fillPermutations(remaining);
-      for (String string : words)
-      {
-         for (int i = 0; i <= string.length(); i++)
+         for (int i = 0; i < n; i++)
          {
-            permutations.add(insertChar(string, first, i));
+            fillPermutations(prefix + str.charAt(i),
+                             str.substring(0, i) + str.substring(i+1, n));
          }
       }
-      return permutations;
-   }
-
-   private String insertChar(String pString, char pChar, int pPos)
-   {
-      String begin = pString.substring(0, pPos);
-      String end = pString.substring(pPos);
-      return begin + pChar + end;
    }
 
    /**
@@ -84,8 +69,9 @@ public class LexicographicPermutations
     */
    public void run()
    {
-      mPermutations = fillPermutations(mCharacters);
-      //TODO:Fix this.
+      fillPermutations(mCharacters.substring(1),mCharacters);
+      System.out.println(mPermutations.size());
+      Object[] strings = mPermutations.toArray();
       System.out.println(strings[mTerm - 1]);
    }
 
