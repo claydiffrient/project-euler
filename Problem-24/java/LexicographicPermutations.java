@@ -14,10 +14,13 @@
 * Project Euler Account: http://projecteuler.net/profile/claydiffrient.png
 */
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Finds a certain term of the permuations of a given string.
+ * @author Clay Diffrient
+ */
 public class LexicographicPermutations
    implements Runnable
 {
@@ -33,9 +36,9 @@ public class LexicographicPermutations
    String mCharacters;
 
    /**
-    * Permutations.
+    * Factorial array.
     */
-   SortedSet<String> mPermutations;
+   int[] mFactorials;
 
    /**
     * Default constructor
@@ -44,35 +47,82 @@ public class LexicographicPermutations
    {
       mTerm = pTerm;
       mCharacters = pCharacters;
-      mPermutations = new TreeSet<String>();
+      mFactorials = new int[10];
    }
 
-   private void fillPermutations(String prefix, String str)
+   /**
+    * factorial
+    * Finds the factorial of a given number. This implementation supports 0-9.
+    * @param pNum value to find the factorial of. (0-9)
+    * @return int
+    */
+   private int factorial(int pNum)
    {
-      int n = str.length();
-      if (n == 0)
+      if ((pNum == 1) || (pNum == 0))
       {
-         mPermutations.add(prefix);
+         return 1;
+      }
+      if (mFactorials[pNum] > 0)
+      {
+         return mFactorials[pNum];
       }
       else
       {
-         for (int i = 0; i < n; i++)
+         int value = 1;
+         for (int i = 2; i <= pNum; i++)
          {
-            fillPermutations(prefix + str.charAt(i),
-                             str.substring(0, i) + str.substring(i+1, n));
+            value *= i;
          }
+         return mFactorials[pNum] = value;
       }
    }
+
+   /**
+    * findPermuationAtTerm
+    * Finds a permuation at the given term.
+    * @return String
+    */
+   private String findPermutationAtTerm()
+   {
+      int[] toPermute = new int[mCharacters.length()];
+      for (int i = 0; i < mCharacters.length(); i++)
+      {
+         toPermute[i] = Character.getNumericValue(mCharacters.charAt(i));
+      }
+      int length = toPermute.length;
+      String permNumber = "";
+      int toCheck = mTerm - 1;
+      List<Integer> values = new ArrayList<Integer>();
+      for (int i = 0; i < length; i++)
+      {
+         values.add(i);
+      }
+      for (int i = 1; i < length; i++)
+      {
+         int j = toCheck / factorial(length - i);
+         toCheck = toCheck % factorial(length - i);
+         permNumber = permNumber + values.get(j);
+         values.remove(j);
+         if (toCheck == 0)
+         {
+            break;
+         }
+      }
+      for (int i = 0; i < values.size(); i++)
+      {
+         permNumber = permNumber + values.get(i);
+      }
+      return permNumber;
+   }
+
+
 
    /**
     * Run all the code in a thread.
     */
    public void run()
    {
-      fillPermutations(mCharacters.substring(1),mCharacters);
-      System.out.println(mPermutations.size());
-      Object[] strings = mPermutations.toArray();
-      System.out.println(strings[mTerm - 1]);
+      System.out.println(findPermutationAtTerm());
    }
 
    /**
