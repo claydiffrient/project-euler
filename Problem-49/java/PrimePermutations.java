@@ -4,7 +4,7 @@
 * 4 digit prime permutations which are all prime and
 *
 * Problem Link: http://projecteuler.net/problem=49
-* Github Issue: https://github.com/claydiffrient/project-euler/issues/Project Number + 7
+* Github Issue: https://github.com/claydiffrient/project-euler/issues/56
 *
 * Created by: Clay Diffrient
 * Email: clay.diffrient@gmail.com
@@ -46,30 +46,27 @@ public class PrimePermutations
 
    private boolean isPermutation(int pFirst, int pSecond)
    {
-      String one = String.valueOf(pFirst);
-      String two = String.valueOf(pSecond);
-      if (one.length() != two.length())
+      int[] array = new int[10];
+      int temp = pSecond;
+      while (temp > 0)
       {
-         return false;
+         array[temp % 10]++;
+         temp /= 10;
       }
-      char[] oneA = one.toCharArray();
-      char[] twoA = two.toCharArray();
-      int count = 0;
-      for (int i = 0; i < oneA.length; i++)
+      temp = pFirst;
+      while (temp > 0)
       {
-         for (int j = 0; j < twoA.length; j++)
+         array[temp % 10]--;
+         temp /= 10;
+      }
+      for (int i = 0; i < 10; i++)
+      {
+         if (array[i] != 0)
          {
-            if (twoA[j] == oneA[i])
-            {
-               count++;
-            }
+            return false;
          }
       }
-      if (count == one.length())
-      {
-         return true;
-      }
-      return false;
+      return true;
    }
 
    /**
@@ -77,53 +74,29 @@ public class PrimePermutations
     */
    public void run()
    {
-      int thisPrime = 0;
-      int nextPrime = 0;
-      int thirdPrime = 0;
-      int count = 1;
-      int primeOne = 0;
-      int primeTwo = 0;
-      int primeThree = 0;
       sievePrimes();
-      for (int i = 1000; i < 9999; i++)
+      for (int i = 1000; i < 10000; i++)
       {
-
          if (mPrimes[i])
          {
-            System.out.println("Checking: " + i + ":");
-            if (count == 1)
+            //System.out.println("i = " + i);
+            for (int j = i + 1; j < 10000; j++)
             {
-               primeOne = i;
-               count++;
-               System.out.println("\tPrimeOne = " + i);
-            }
-            else if (count == 2)
-            {
-               primeTwo = i;
-               System.out.println("\tPrimeTwo = " + i);
-               count++;
-               System.out.println("\tChecking Permutation:" + primeOne + ", " + primeTwo + ":");
-               if (!isPermutation(primeOne, primeTwo))
+               if (mPrimes[j])
                {
-                  count = 1;
-                  System.out.println("\t\tNot Permutations. Resetting.");
-               }
-            }
-            else if (count == 3)
-            {
-               primeThree = i;
-               System.out.println("\tChecking Permutation" + primeOne + ", " + primeTwo + ", " + primeThree + ":");
-               System.out.println("\tPrimeThree = " + i);
-               if (!isPermutation(primeOne, primeTwo) &&
-                   !isPermutation(primeTwo, primeThree))
-               {
-                  System.out.println("\t\tNot Permutations. Resetting.");
-                  count = 1;
-               }
-               else
-               {
-                  System.out.println("Complete:");
-                  System.out.println(primeOne +", " + primeTwo + ", " + primeThree);
+                  //System.out.println("j = " + j);
+                  int k = j + (j - i);
+                  if (k < 9999)
+                  {
+                     if (mPrimes[k])
+                     {
+                        //System.out.println("k = " + k);
+                        if (isPermutation(i, j) && isPermutation(j, k))
+                        {
+                           System.out.println(i + " " + j + " " + k);
+                        }
+                     }
+                  }
                }
             }
          }
