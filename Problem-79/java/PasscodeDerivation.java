@@ -12,6 +12,12 @@
 * Project Euler Account: http://projecteuler.net/profile/claydiffrient.png
 */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class PasscodeDerivation
    implements Runnable
 {
@@ -28,7 +34,9 @@ public class PasscodeDerivation
     */
    public void run()
    {
-
+      Node one = new Node(1);
+      Node two = new Node(2);
+      one.addEdge(two);
    }
 
    /**
@@ -40,6 +48,69 @@ public class PasscodeDerivation
       new PasscodeDerivation().run();
    }
 
+   /**
+    * Inner Classes
+    */
+   private class Node
+   {
+      private int mValue;
+      private Set<Edge> mInEdges;
+      private Set<Edge> mOutEdges;
+
+      public Node(int pValue)
+      {
+         mValue = pValue;
+         mInEdges = new HashSet<Edge>();
+         mOutEdges = new HashSet<Edge>();
+      }
+
+      public Set<Edge> getInEdges()
+      {
+         return mInEdges;
+      }
+
+      public Node addEdge(Node pNode)
+      {
+         Edge e = new Edge(this, pNode);
+         mOutEdges.add(e);
+         pNode.getInEdges().add(e);
+         return this;
+      }
+
+      public int getValue()
+      {
+         return mValue;
+      }
+   }
+
+   private class Edge
+   {
+      private Node mFrom;
+      private Node mTo;
+
+      public Edge(Node pFrom, Node pTo)
+      {
+         mFrom = pFrom;
+         mTo = pTo;
+      }
+
+      public Node getFrom()
+      {
+         return mFrom;
+      }
+
+      public Node getTo()
+      {
+         return mTo;
+      }
+
+      @Override
+      public boolean equals(Object pObj)
+      {
+         Edge e = (Edge) pObj;
+         return e.getFrom() == mFrom && e.getTo() == mTo;
+      }
+   }
 }
 
 
