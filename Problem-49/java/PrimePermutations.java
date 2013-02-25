@@ -80,30 +80,50 @@ public class PrimePermutations
       int thisPrime = 0;
       int nextPrime = 0;
       int thirdPrime = 0;
-      int count = 0;
+      int count = 1;
+      int primeOne = 0;
+      int primeTwo = 0;
+      int primeThree = 0;
       sievePrimes();
       for (int i = 1000; i < 9999; i++)
       {
+
          if (mPrimes[i])
          {
-            thisPrime = nextPrime;
-            nextPrime = i;
-            if (nextPrime != 0)
+            System.out.println("Checking: " + i + ":");
+            if (count == 1)
             {
-               if (isPermutation(thisPrime, nextPrime))
+               primeOne = i;
+               count++;
+               System.out.println("\tPrimeOne = " + i);
+            }
+            else if (count == 2)
+            {
+               primeTwo = i;
+               System.out.println("\tPrimeTwo = " + i);
+               count++;
+               System.out.println("\tChecking Permutation:" + primeOne + ", " + primeTwo + ":");
+               if (!isPermutation(primeOne, primeTwo))
                {
-                  for (int j = 1000; j < 9999; j++)
-                  {
-                     if (mPrimes[j])
-                     {
-                        thirdPrime = j;
-                        if (isPermutation(nextPrime, thirdPrime))
-                        {
-                           System.out.println(thisPrime + ", " + nextPrime +
-                                              ", " + thirdPrime);
-                        }
-                     }
-                  }
+                  count = 1;
+                  System.out.println("\t\tNot Permutations. Resetting.");
+               }
+            }
+            else if (count == 3)
+            {
+               primeThree = i;
+               System.out.println("\tChecking Permutation" + primeOne + ", " + primeTwo + ", " + primeThree + ":");
+               System.out.println("\tPrimeThree = " + i);
+               if (!isPermutation(primeOne, primeTwo) &&
+                   !isPermutation(primeTwo, primeThree))
+               {
+                  System.out.println("\t\tNot Permutations. Resetting.");
+                  count = 1;
+               }
+               else
+               {
+                  System.out.println("Complete:");
+                  System.out.println(primeOne +", " + primeTwo + ", " + primeThree);
                }
             }
          }
