@@ -23,9 +23,9 @@ public class TriPentHex
 {
 
    int mMax;
-   int[] mT;
-   int[] mP;
-   int[] mH;
+   long[] mT;
+   long[] mP;
+   long[] mH;
 
    /**
     * Default constructor
@@ -33,12 +33,12 @@ public class TriPentHex
    public TriPentHex(int pMax)
    {
       mMax = pMax;
-      mT = new int[pMax + 1];
-      mP = new int[pMax + 1];
-      mH = new int[pMax + 1];
+      mT = new long[pMax + 1];
+      mP = new long[pMax + 1];
+      mH = new long[pMax + 1];
    }
 
-   private int triangle(int pNum)
+   private long triangle(int pNum)
    {
       if (mT[pNum] > 0)
       {
@@ -50,7 +50,7 @@ public class TriPentHex
       }
    }
 
-   private int pentagon(int pNum)
+   private long pentagon(int pNum)
    {
       if (mP[pNum] > 0)
       {
@@ -62,7 +62,7 @@ public class TriPentHex
       }
    }
 
-   private int hexagon(int pNum)
+   private long hexagon(int pNum)
    {
       if (mH[pNum] > 0)
       {
@@ -74,49 +74,32 @@ public class TriPentHex
       }
    }
 
+   private boolean isPentagonal(long pNum)
+   {
+      double test = (Math.sqrt(1 + 24 * pNum) + 1.0) / 6.0;
+      return test == ((long) test);
+   }
+
    /**
     * Run all the code in a thread.
     */
    public void run()
    {
       boolean isAll = false;
-      int t = 0;
-      int p = 0;
-      int h = 0;
-      int nextNum = 0;
-      for (int i = 286; i < mMax; i++)
+      long t = 0;
+      long nextNum = 0;
+      int i = 146;
+      while (true)
       {
          t = triangle(i);
-         for (int j = 166; j < mMax; j++)
+         if (isPentagonal(t))
          {
-            p = pentagon(j);
-            System.out.print("\nt("+ i +") = " + t);
-            System.out.print("; p("+ j +") = " + p);
-            if (p == t)
-            {
-               for (int k = 144; k < mMax; k++)
-               {
-                  h = hexagon(k);
-                  System.out.print("; h("+ k +") = " + h);
-                  if ((t == p) && (t == h))
-                  {
-                     isAll = true;
-                     nextNum = t;
-                  }
-               }
-            }
+            nextNum = t;
+            break;
          }
+         i++;
       }
-      if (nextNum == 0)
-      {
-         System.out.println("\nNot found. Try higher max.");
-      }
-      else
-      {
-         System.out.println("\n" + nextNum);
-      }
-
-
+      System.out.println("\n" + nextNum);
    }
 
    /**
