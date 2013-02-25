@@ -77,7 +77,7 @@ public class TriPentHex
    private boolean isPentagonal(long pNum)
    {
       double test = (Math.sqrt(1 + 24 * pNum) + 1.0) / 6.0;
-      return test == ((long) test);
+      return (test == ((long) test));
    }
 
    /**
@@ -88,18 +88,18 @@ public class TriPentHex
       boolean isAll = false;
       long t = 0;
       long nextNum = 0;
-      int i = 146;
+      int i = 147;
       while (true)
       {
-         t = triangle(i);
+         t = hexagon(i);
          if (isPentagonal(t))
          {
-            nextNum = t;
+            System.out.println(t);
             break;
          }
          i++;
       }
-      System.out.println("\n" + nextNum);
+
    }
 
    /**
