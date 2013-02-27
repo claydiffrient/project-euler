@@ -15,6 +15,10 @@
 */
 
 import java.math.BigInteger;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class NumberRotations
    implements Runnable
@@ -26,11 +30,23 @@ public class NumberRotations
    BigInteger mSum;
 
    /**
+    * Running Threads
+    */
+   List<Thread> mThreads;
+
+   /**
+    * Count of threads
+    */
+   int mCount;
+
+   /**
     * Default constructor
     */
    public NumberRotations()
    {
       mSum = BigInteger.ZERO;
+      mThreads = new ArrayList<Thread>();
+      mCount = 0;
    }
 
    /**
@@ -56,21 +72,73 @@ public class NumberRotations
       return false;
    }
 
+   private boolean allThreadsFinished()
+   {
+      mCount = 0;
+      for (Thread t : mThreads )
+      {
+         if (t.isAlive())
+         {
+            mCount++;
+            return false;
+         }
+         else
+         {
+            mCount--;
+         }
+      }
+      return true;
+   }
+
    /**
     * Run all the code in a thread.
     */
    public void run()
    {
-      BigInteger upperLimit = (BigInteger.TEN).pow(100);
-      for (BigInteger i = BigInteger.TEN; i.compareTo(upperLimit) < 0; i = i.add(BigInteger.ONE))
+      for (int power = 1; power <= 100; power++)
       {
-         if (isDivisor(i))
-         {
-            System.out.println(i);
-            mSum.add(i);
-         }
+         final int powerTwo = power;
+         final BigInteger lowerLimit = (BigInteger.TEN).pow(power).divide((BigInteger.TEN).pow(1));
+
+         mThreads.add(new Thread(){
+            public void run()
+            {
+               BigInteger upperLimit = (BigInteger.TEN).pow(powerTwo);
+               for (BigInteger i = lowerLimit; i.compareTo(upperLimit) < 0; i = i.add(BigInteger.ONE))
+               {
+                  if (isDivisor(i))
+                  {
+                     System.out.println(i);
+                     mSum = mSum.add(i);
+                  }
+               }
+            }
+         });
       }
-      System.out.println("SUM:" + mSum);
+      mThreads.remove(0);
+      for (Thread t : mThreads)
+      {
+         t.start();
+      }
+      new Thread()
+      {
+         public void run()
+         {
+            while (!allThreadsFinished())
+            {
+               System.out.println("Running tests: " + mCount + " still running.");
+               System.out.println("The current sum is: " + mSum);
+               try
+               {
+                  this.sleep(5000);
+               }
+               catch (Exception e)
+               {
+               }
+            }
+            System.out.println("SUM:" + mSum);
+         }
+      }.start();
    }
 
    /**
