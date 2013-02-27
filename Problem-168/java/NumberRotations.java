@@ -80,12 +80,15 @@ public class NumberRotations
          if (t.isAlive())
          {
             mCount++;
-            return false;
          }
          else
          {
             mCount--;
          }
+      }
+      if (mCount != 0)
+      {
+         return false;
       }
       return true;
    }
@@ -108,8 +111,17 @@ public class NumberRotations
                {
                   if (isDivisor(i))
                   {
-                     System.out.println(i);
+                     System.out.println("I started at " + lowerLimit.toString());
+                     System.out.println("I just found " + i.toString());
+                     System.out.println("I finish at " + upperLimit.toString());
                      mSum = mSum.add(i);
+                     try
+                     {
+                        this.sleep(500);
+                     }
+                     catch (Exception e)
+                     {
+                     }
                   }
                }
             }
@@ -130,7 +142,7 @@ public class NumberRotations
                System.out.println("The current sum is: " + mSum);
                try
                {
-                  this.sleep(5000);
+                  this.sleep(10000);
                }
                catch (Exception e)
                {
