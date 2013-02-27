@@ -17,8 +17,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Iterator;
 import java.io.FileReader;
 import java.io.BufferedReader;
+
+
+import static com.wagnerandade.coollection.Coollection.*;
 
 public class PasscodeDerivation
    implements Runnable
@@ -26,7 +30,7 @@ public class PasscodeDerivation
 
    List<Node> mListOfNodes;
    List<List<Integer>> mListOfValues;
-   private final string FILENAME = "keylog.txt";
+   private final String FILENAME = "keylog.txt";
 
    /**
     * Default constructor
@@ -34,7 +38,20 @@ public class PasscodeDerivation
    public PasscodeDerivation()
    {
       mListOfNodes = new ArrayList<Node>();
-      mListOfValues = new ArrayList<ArrayList<Integer>>();
+      mListOfValues = new ArrayList<List<Integer>>();
+   }
+
+   /**
+    * Converts Integer lists to int[]
+    */
+   private int[] toIntArray(List<Integer> pList)
+   {
+      int[] ret = new int[pList.size()];
+      for (int i = 0; i < ret.length; i++)
+      {
+         ret[i] = pList.get(i);
+      }
+      return ret;
    }
 
    /**
@@ -55,17 +72,86 @@ public class PasscodeDerivation
             }
             mListOfValues.add(values);
          }
+         for (List<Integer> entry : mListOfValues )
+         {
+            int[] curValues = toIntArray(entry);
+            Node firstNode = from(mListOfNodes).where("getValue", eq(curValues[0])).first();
+            Node secondNode = from(mListOfNodes).where("getValue", eq(curValues[1])).first();
+            Node thirdNode = from(mListOfNodes).where("getValue", eq(curValues[2])).first();
+            if (firstNode == null)
+            {
+               firstNode = new Node(curValues[0]);
+               mListOfNodes.add(firstNode);
+            }
+            if (secondNode == null)
+            {
+               secondNode = new Node(curValues[1]);
+               mListOfNodes.add(secondNode);
+            }
+            if (thirdNode == null)
+            {
+               thirdNode = new Node(curValues[2]);
+               mListOfNodes.add(thirdNode);
+            }
+            firstNode.addEdge(secondNode);
+            secondNode.addEdge(thirdNode);
+         }
+         //Get ready to sort.
+         Set<Node> startNodes = new HashSet<Node>();
+         List<Node> completedSort = new ArrayList<Node>();
+         for (Node node : mListOfNodes)
+         {
+            if (node.getInEdgeSize() == 0)
+            {
+               startNodes.add(node);
+            }
+         }
+         while (!startNodes.isEmpty())
+         {
+            Iterator<Node> itr = startNodes.iterator();
+            Node next = itr.next();
+            itr.remove();
+            completedSort.add(next);
+            for (Iterator<Edge> it = next.getOutEdges().iterator(); it.hasNext();)
+            {
+               Edge e = it.next();
+               Node m = e.getTo();
+               it.remove();
+               m.getInEdges().remove(e);
+               if (m.getInEdges().isEmpty())
+               {
+                  startNodes.add(m);
+               }
+            }
+         }
+         boolean repeat = false;
+         for (Node n : mListOfNodes)
+         {
+            if (!n.getInEdges().isEmpty())
+            {
+               repeat = true;
+               break;
+            }
+         }
+         if (repeat)
+         {
+            System.out.println("Cycle present. Not possible.");
+         }
+         else
+         {
+            System.out.println("Passcode:" + Arrays.toString(completedSort.toArray()));
+         }
 
       }
       catch (Exception e)
       {
-         System.out.println("Error reading file.")
+         System.out.println("Error reading file.");
          e.printStackTrace();
          System.exit(1);
       }
 
-      Set<Node> startNodes = new HashSet<Node>();
-      //Loop through each set of 3 nodes and add them to the hash set as needed.
+
+
       //Perform topological sort.
       //Output the value.
    }
@@ -82,7 +168,7 @@ public class PasscodeDerivation
    /**
     * Inner Classes
     */
-   private class Node
+   public class Node
    {
       private int mValue;
       private Set<Edge> mInEdges;
@@ -100,6 +186,16 @@ public class PasscodeDerivation
          return mInEdges;
       }
 
+      public Set<Edge> getOutEdges()
+      {
+         return mOutEdges;
+      }
+
+      public int getInEdgeSize()
+      {
+         return mInEdges.size();
+      }
+
       public Node addEdge(Node pNode)
       {
          Edge e = new Edge(this, pNode);
@@ -112,9 +208,15 @@ public class PasscodeDerivation
       {
          return mValue;
       }
+
+      @Override
+      public String toString()
+      {
+         return String.valueOf(mValue);
+      }
    }
 
-   private class Edge
+   public  class Edge
    {
       private Node mFrom;
       private Node mTo;
