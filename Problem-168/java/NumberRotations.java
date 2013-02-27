@@ -14,15 +14,46 @@
 * Project Euler Account: http://projecteuler.net/profile/claydiffrient.png
 */
 
+import java.math.BigInteger;
+
 public class NumberRotations
    implements Runnable
 {
+
+   /**
+    * Holds the sum of the digits.
+    */
+   BigInteger mSum;
+
    /**
     * Default constructor
     */
    public NumberRotations()
    {
+      mSum = BigInteger.ZERO;
+   }
 
+   /**
+    * getRightRotation
+    * @param pNum the number to get the rotation for.
+    */
+   private String getRightRotation(BigInteger pNum)
+   {
+      String strValue = pNum.toString();
+      String last = strValue.substring(strValue.length() - 1);
+      String newVal = strValue.substring(0, strValue.length() - 1);
+      return last + newVal;
+   }
+
+   private boolean isDivisor(BigInteger pNum)
+   {
+      String rightRotation = getRightRotation(pNum);
+      BigInteger rotation = new BigInteger(rightRotation);
+      if (rotation.remainder(pNum) == BigInteger.ZERO)
+      {
+         return true;
+      }
+      return false;
    }
 
    /**
@@ -30,7 +61,16 @@ public class NumberRotations
     */
    public void run()
    {
-
+      BigInteger upperLimit = (BigInteger.TEN).pow(100);
+      for (BigInteger i = BigInteger.TEN; i.compareTo(upperLimit) < 0; i = i.add(BigInteger.ONE))
+      {
+         if (isDivisor(i))
+         {
+            System.out.println(i);
+            mSum.add(i);
+         }
+      }
+      System.out.println("SUM:" + mSum);
    }
 
    /**
